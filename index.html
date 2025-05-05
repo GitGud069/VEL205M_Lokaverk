@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Streaming Website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Live Streaming Heimasíða</h1>
+    <nav>
+        <a href="index.html">Heimasíða</a> | 
+        <!--<a href="results.html">Mælingar</a> |-->
+        <a href="diary.html">Dagbók (Private)</a>
+    </nav>
+
+    <h2>Live Stream</h2>
+    <iframe 
+        src="https://player.twitch.tv/?channel=livedragonzero&parent=GitGud069.github.io"
+        height="700" width="1100" allowfullscreen>
+    </iframe>
+
+
+<!-- Live Data Display -->
+<p>Temperature: <span id="temp">Loading...</span>°C</p>
+<p>Color: <span id="color" class="status">Loading...</span></p>
+
+<script>
+    // Firebase Configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyBedgYa9S4rYxU9DyR1OYkRVWM5z5q5Tz0",
+        authDomain: "live-measurements-a82ab.firebaseapp.com",
+        databaseURL: "https://live-measurements-a82ab-default-rtdb.firebaseio.com/",
+        projectId: "live-measurements-a82ab",
+        storageBucket: "live-measurements-a82ab.appspot.com",
+        messagingSenderId: "769883136141",
+        appId: "1:769883136141:web:8df9cc0900957ff04982c4",
+        measurementId: "G-1M94KHTWGQ"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    var database = firebase.database();
+
+    function updateData(snapshot) {
+        if (snapshot.exists()) {
+            var data = snapshot.val();
+            document.getElementById("temp").innerText = data.temperature;
+            var colorElement = document.getElementById("color");
+            colorElement.innerText = data.color;
+            colorElement.className = "status " + data.color;  // Update color background
+        } else {
+            document.getElementById("temp").innerText = "No data available";
+            document.getElementById("color").innerText = "No data available";
+        }
+    }
+
+    // Listen for live updates
+    database.ref("measurements").on("value", updateData);
+</script>
+
+
+
+
+    <h2>Live Chat</h2>
+    <iframe 
+        src="https://www.twitch.tv/embed/livedragonzero/chat?parent=GitGud069.github.io"
+        height="300" width="600">
+    </iframe>
+</body>
+</html>
