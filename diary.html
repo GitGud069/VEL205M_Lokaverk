@@ -15,9 +15,26 @@
         <a href="diary.html">Dagbók (Private)</a>
     </nav>
 
-    <p>🔒 Þessi síða er "password protected". Þú þarft passwordið to að komast að dagbókinni.</p>
-    <input type="password" id="password" placeholder="Enter Password">
-    <button onclick="checkPassword(Password123)">Submit</button>
+    <p>🔒 Þessi síða er "password protected". Þú þarft passwordið til að komast að dagbókinni.</p>
+    <input type="password" id="password" placeholder="Sláðu inn lykilorð" onkeydown="if (event.key === 'Enter') checkPassword()">
+    <button onclick="checkPassword()">Submit</button>
+  
+    <p id="message"></p>
+  
+    <script>
+      function checkPassword() {
+        const input = document.getElementById("password").value;
+        const correctPassword = "Password123";
+        const message = document.getElementById("message");
+  
+        if (input === correctPassword) {
+          message.innerText = "✅ Rétt! Áframsendi...";
+          window.location.href = "dagbok.html"; // Change this if needed
+        } else {
+          message.innerText = "❌ Rangt lykilorð. Reyndu aftur.";
+        }
+      }
+    </script>
 
     <div id="diary-content" style="display:none;">
         <h2>Okkar Dagbók</h2>
